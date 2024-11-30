@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['register'])) {
         $username = $_POST['username'];
         $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $address = $_POST['address'];
+        $address = $_POST['address'] . " " . $_POST['city'] . " " . $_POST['state'] . " " . $_POST['zip'];
         $phone = $_POST['phone'];
         $available_hours = $_POST['available_hours'];
         
@@ -49,10 +49,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "Login successful! Welcome, " . $row['username'] . "<br>";
                 $_SESSION['user_id'] = $row['id']; // Record user's session
             } else {
-                echo "Incorrect password.<br>";
+                echo "Incorrect username or password.<br>";
             }
         } else {
-            echo "User not found.<br>";
+            echo "Incorrect username or password.<br>";
         }
     }
     
@@ -104,17 +104,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!-- User Registration Form -->
 <h2>Register</h2>
 <form method="post">
-    <label for="username">Username:</label>
-    <input type="text" name="username" required><br>
-    <label for="password">Password:</label>
-    <input type="password" name="password" required><br>
-    <label for="address">Address:</label>
-    <input type="text" name="address" required><br>
-    <label for="phone">Phone:</label>
-    <input type="text" name="phone" required><br>
-    <label for="available_hours">Available Hours per Day:</label>
-    <input type="number" name="available_hours" required><br>
-    <input type="submit" name="register" value="Register">
+<label for="username">Username:</label>
+	<input type="text" name="username" required><br>
+	<label for="password">Password:</label>
+	<input type="password" name="password" required><br>
+	<label for="address">Street Address:</label>
+	<input type="text" name="address" size="30" required><br>
+	<label for="city">City:</label>
+	<input type="text" name="city" required>
+	<label for="state">State:</label>
+	<input type="text" name="state" size="2" minlength="2" maxlength="2" required>
+	<label for="zip">ZIP:</label>
+	<input type="text" name="zip" size="5" minlength="5" maxlength="5" required><br>
+	<label for="phone">Phone:</label>
+	<input type="text" name="phone" required><br>
+	<label for="available_hours">Available Hours per Day:</label>
+	<input type="number" name="available_hours" required><br>
+	<input type="submit" name="register" value="Register">
 </form>
 
 <!-- User Login Form -->

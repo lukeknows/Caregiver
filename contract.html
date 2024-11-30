@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Create Contract</title>
+	<style>
+		label {
+			width: 11%;
+			display: inline-block;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Create Contract</h1>
+	<form action="index.php" method="post">
+		<label for="start_date">Start Date:</label>
+		<input type="date" name="start_date" required><br>
+		<label for="end_date">End Date:</label>
+		<input type="date" name="end_date" required><br>
+		<label for="daily_hours">Daily Work Hours:</label>
+		<input type="number" name="daily_hours" min="0" max="24" required><br>
+		<input type="submit" name="create_contract" value="Create Contract">
+	</form>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Sign Up</title>
+	<style>
+		label {
+			width: 11%;
+			display: inline-block;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Register</h1>
+	<h2>Your Information</h2>
+	<form action="index.php" method="post">
+		<label for="username">Username:</label>
+		<input type="text" name="username" required><br>
+		<label for="password">Password:</label>
+		<input type="password" name="password" required><br>
+		<label for="address">Street Address:</label>
+		<input type="text" name="address" size="30" required><br>
+		<label for="city">City:</label>
+		<input type="text" name="city" size="15" required>
+		State: <!-- no label because of formatting -->
+		<input type="text" name="state" size="1" minlength="2" maxlength="2" required>
+		ZIP:
+		<input type="text" name="zip" size="5" minlength="5" maxlength="5" pattern="[0-9]{5}" required><br>
+		<label for="phone">Phone:</label>
+		<input type="tel" name="phone" required><br>
+		<label for="available_hours">Available Hours per Week:</label>
+		<input type="number" min="0" max="168" name="available_hours" required><br>
+
+		<!-- not sure exactly what "parent's info" means from the instructions, haven't set required yet -->
+		<h2>Parents&#39; Information</h2>
+		<label for="parent_phone">Phone:</label>
+		<input type="tel" name="parent_phone"><br>
+
+		<input type="submit" name="register" value="Register">
+	</form>
+
+	<script>
+		"use strict";
+		/*
+		const email = document.getElementById("email")
+		const password = document.getElementById("password")
+		const phoneNumber = document.getElementById("phoneNumber")
+		const workHours = document.getElementById("workHours")
+		const parentsInfo = document.getElementById("parentsInfo")
+		const signupButton = document.getElementById("signup")
+
+		const emailInvalid = document.getElementById("emailInvalid")
+		const passwordInvalid = document.getElementById("passwordInvalid")
+		const phoneNumberInvalid = document.getElementById("phoneNumberInvalid")
+		const hoursInvalid = document.getElementById("hoursInvalid")
+		const parentsInfoInvalid = document.getElementById("parentsInfoInvalid")
+
+		const minPasswordLength = 8
+		const maxHours = 168
+
+		signupButton.addEventListener("click", () => {
+			let valid = true
+
+			if (!email.value.includes("@")) {
+				valid = false
+				emailInvalid.innerHTML = "<p style=\"color:red\">Please enter a valid email address.</p>"
+			}
+
+			if (password.value.length < minPasswordLength) {
+				valid = false
+				passwordInvalid.innerHTML = `<p style="color:red">Your password must include at least ${minPasswordLength} characters.</p>`
+			}
+
+			if (isNaN(phoneNumber.value) || (phoneNumber.value.length != 10 && phoneNumber.value.length != 11)) {
+				valid = false
+				phoneNumberInvalid.innerHTML = "<p style=\"color:red\">Please enter 10 or 11 digits with no symbols.</p>"
+			}
+
+			if (isNaN(workHours.value)) {
+				valid = false
+				hoursInvalid.innerHTML = "<p style=\"color:red\">Please enter a number.</p>"
+			} else if (workHours.value > maxHours) {
+				valid = false
+				hoursInvalid.innerHTML = `<p style=\"color:red\">The maximum number of hours is ${maxHours}.</p>`
+			}
+
+			if (parentsInfo.val() == "") {
+				valid = false
+				parentsInfoInvalid.innerHTML = "<p style=\"color:red\">Please enter information.</p>"
+			}
+
+			if (valid)
+				alert("All fields are valid.  (add user to database here)")
+		})
+				*/
+
+	</script>
+</body>
+
+</html>
