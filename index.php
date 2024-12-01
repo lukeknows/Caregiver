@@ -73,14 +73,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ((bool)$receiver_exists) {
                 // ...get their id
                 $receiver_id = $receiver_exists['id'];
-                // Create contract (not sure where the CREATE TABLE statements are, we might need a new one with more columns)
-                $sql = "INSERT INTO pending_contracts (user_id, receiver_id, start_date, end_date, daily_hours, total_hours)
-                        VALUES ('$user_id', '$receiver_id', '$start_date', '$end_date', '$daily_hours', '$total_hours')";
-                
-                if ($conn->query($sql) === TRUE) {
-                    echo "Contract created successfully.<br>";
-                } else {
-                    echo "Failed to create contract: " . $conn->error . "<br>";
+
+                // make sure it's different from user id
+                if ($receiver_id == $user_id)
+                    echo "You can't be the owner and receiver of a single contract.<br>"
+                else {
+                    // Calculate total contract hours
+                    $start = new DateTime($start_date);
+                    $end = new DateTime($end_date);
+                    $interval = $start->diff($end);
+                    $total_days = $interval->days + 1; // Add 1 day to include the start date
+                    $total_hours = $daily_hours * $total_days;
+
+                    // generate random id (not sure how or if user IDs are being created)
+                    $contract_id = uniqid();
+
+                    // Create contract (not sure where the CREATE TABLE statements are, we might need a new one with more columns)
+                    $sql = "INSERT INTO pending_contracts (contract_id, user_id, receiver_id, start_date, end_date, daily_hours, total_hours)
+                            VALUES ('$contract_id', '$user_id', '$receiver_id', '$start_date', '$end_date', '$daily_hours', '$total_hours')";
+                    
+                    if ($conn->query($sql) === TRUE) {
+                        echo "Contract created successfully with ID ". $contract_id . ".<br>";
+                    } else {
+                        echo "Failed to create contract: " . $conn->error . "<br>";
+                    }
                 }
             } else {
                 echo "There is no account with this username.<br>";
@@ -92,59 +108,98 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // handling contract acceptance (might change)
     // would probably be better to notify users when they have a contract to accept than for them to manually enter
-    // the caregiver's username and have to know beforehand about the contract
-    if (isset($_POST['accept_contract'])) {
+    // the caregiver's username or contract ID and have to know beforehand about the contract
+    if (isset($_POST['accept_contract']) || isset($_POST['reject_contract'])) {
+        $accepted = isset($_POST['accept_contract']);
         if (isset($_SESSION['user_id'])) {
             $user_id = $_SESSION['user_id'];
-            $owner_name = $_POST['owner_name'];
+            $contract_id = $_POST['contract_id']; // hopefully users won't have to remember this and website can autofill it (I have an idea)
 
-            // get owner id
-            $owner_id_sql = "SELECT id FROM users WHERE username = '$owner_name'";
-            $owner_id_result = $conn->query($owner_id_sql);
-            $owner_row = $owner_id_result->fetch_assoc();
-            $owner_id = $owner_row['id'];
-
-            // get contract (this allows only one contract for a giver/receiver pair, would be better to have contract id but
-            // not sure how or if user IDs are being created)
-            $contract_sql = "SELECT * FROM pending_contracts WHERE user_id = '$owner_id' AND receiver_id = '$user_id'";
+            // get contract
+            $contract_sql = "SELECT * FROM pending_contracts WHERE contract_id = '$contract_id'";
             $contract_result = $conn->query($contract_sql);
             $contract_row = $contract_result->fetch_assoc();
 
             // check that the contract exists
             if ((bool)$contract_row) {
                 // get contract values
+                $owner_id = $contract_row['user_id'];
+                $receiver_id = $contract_row['receiver_id'];
                 $start_date = $contract_row['start_date'];
                 $end_date = $contract_row['end_date'];
                 $daily_hours = $contract_row['daily_hours'];
                 $total_hours = $contract_row['total_hours'];
 
-                // Check if the user has enough Care Dollars
-                $sql = "SELECT care_dollars FROM users WHERE id = '$user_id'";
-                $result = $conn->query($sql);
-                $row = $result->fetch_assoc();
+                // check that current user is receiver
+                if ($receiver_id == $user_id) {
+                    // Check if the user has enough Care Dollars
+                    $sql = "SELECT care_dollars FROM users WHERE id = '$user_id'";
+                    $result = $conn->query($sql);
+                    $row = $result->fetch_assoc();
 
-                $cost = $total_hours * 30;
-                if ($row['care_dollars'] >= $cost) { 
-                    // create official contract
-                    $sql = "INSERT INTO contracts (user_id, receiver_id, start_date, end_date, daily_hours, total_hours)
-                                VALUES ('$owner_id', '$user_id', '$start_date', '$end_date', '$daily_hours', '$total_hours')";
-                    
-                    if ($conn->query($sql) === TRUE) {
-                        // Deduct Care Dollars from care receiver (current user)
-                        $new_care_dollars = $row['care_dollars'] - $cost;
-                        $sql = "UPDATE users SET care_dollars = '$new_care_dollars' WHERE id = '$user_id'";
-                        $conn->query($sql);
+                    $cost = $total_hours * 30;
+                    if (!$accepted || $row['care_dollars'] >= $cost) { 
+                        // create official contract and delete pending contract
+                        $sql = "DELETE FROM pending_contracts WHERE contract_id = '$contract_id'\n" . $accepted ? 
+                                "INSERT INTO contracts (contract_id, user_id, receiver_id, start_date, end_date, daily_hours, total_hours, review)
+                                    VALUES ('$contract_id', '$owner_id', '$user_id', '$start_date', '$end_date', '$daily_hours', '$total_hours', 0)" : "";
+                                    // use 0 for review to mean it hasn't been reviewed yet
+                        
+                        if ($conn->query($sql) === TRUE) {
+                            if ($accepted) {
+                                // Deduct Care Dollars from care receiver (current user)
+                                $new_care_dollars = $row['care_dollars'] - $cost;
+                                $sql = "UPDATE users SET care_dollars = '$new_care_dollars' WHERE id = '$user_id'";
+                                $conn->query($sql);
 
-                        // give Care Dollars to caregiver
-                        $new_care_dollars = $row['care_dollars'] + $cost;
-                        $sql = "UPDATE users SET care_dollars = '$new_care_dollars' WHERE id = '$owner_id'";
-                        $conn->query($sql);
-                            
-                        echo "Contract created successfully. Care Dollars have been transferred.<br>";
+                                // give Care Dollars to caregiver
+                                $new_care_dollars = $row['care_dollars'] + $cost;
+                                $sql = "UPDATE users SET care_dollars = '$new_care_dollars' WHERE id = '$owner_id'";
+                                $conn->query($sql);
+                                    
+                                echo "Contract created successfully. Care Dollars have been transferred and you now have " . $new_care_dollars . " Care Dollars.<br>";
+                            } else
+                                echo "Contract deleted successfully.<br>";
+                        } else
+                            echo "Failed to create contract: " . $conn->error . "<br>";
                     } else
-                        echo "Failed to create contract: " . $conn->error . "<br>";
+                        echo "Not enough Care Dollars (you need " . $cost . ").<br>";
                 } else
-                    echo "Not enough Care Dollars (you need " . $cost . ").<br>";
+                    echo "This is not your contract.<br>";
+            } else
+                echo "Contract not found.<br>";
+        } else
+            echo "Please log in first.<br>";
+    }
+
+    // handle contract review
+    if (isset($_POST['review_contract'])) {
+        if (isset($_SESSION['user_id'])) {
+            $user_id = $_SESSION['user_id'];
+            $contract_id = $_POST['contract_id'];
+            $rating = $_POST['rating'];
+
+            // get contract
+            $contract_sql = "SELECT * FROM pending_contracts WHERE contract_id = '$contract_id'";
+            $contract_result = $conn->query($contract_sql);
+            $contract_row = $contract_result->fetch_assoc();
+
+            // check that the contract exists
+            if ((bool)$contract_row) {
+                // get receiver id
+                $receiver_id = $contract_row['receiver_id'];
+
+                // check that current user is receiver
+                if ($receiver_id == $user_id) {
+                    // add rating
+                    $review_sql = "UPDATE contracts SET rating = '$rating' WHERE contract_id = '$contract_id'";
+
+                    if ($conn->query($review_sql))
+                        echo "Review posted successfully.<br>";
+                    else
+                        echo "Failed to leave review: " . $conn->error . "<br>";
+                } else
+                    echo "This is not your contract.<br>";
             } else
                 echo "Contract not found.<br>";
         } else

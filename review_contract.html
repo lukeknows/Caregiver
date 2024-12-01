@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Accept Contract</title>
+	<title>Review Contract</title>
 	<style>
 		label {
 			width: 11%;
@@ -14,11 +14,12 @@
 </head>
 
 <body>
-	<h1>Accept or Decline Contract</h1>
+	<h1>Review Contract</h1>
 	<form action="index.php" method="post">
 		<input type="text" name="contract_id" readonly><br> <!-- can be filled with get request, probably won't be visible in final, hopefully show details of contract instead -->
-		<input type="submit" name="accept_contract" value="Accept and Pay">
-		<input type="submit" name="reject_contract" value="Decline">
+		<label for="rating">Rating (1 to 5):</label>
+		<input type="number" name="rating" size="1" min="1" max="5" required><br>
+		<input type="submit" name="review_contract" value="Submit Review">
 	</form>
 </body>
 
