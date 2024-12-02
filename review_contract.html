@@ -5,22 +5,121 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Review Contract</title>
-	<style>
-		label {
-			width: 11%;
-			display: inline-block;
+	<link rel="stylesheet" href="styles.css">
+    <style>
+		h1 {
+			font-size: 24px;
+			margin-bottom: 20px;
+			color: #3498db;
 		}
-	</style>
+        .star-rating {
+            display: inline-block;
+            direction: rtl;
+        }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 2rem;
+            color: #ccc;
+            cursor: pointer;
+            padding: 0 5px;
+        }
+
+        .star-rating input:checked~label {
+            color: gold;
+        }
+
+        .star-rating label:hover,
+        .star-rating label:hover~label {
+            color: #f0c420;
+        }
+
+        .form-container {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .form-title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .form-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 1.2rem;
+            color: white;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .form-button:hover {
+            background-color: #45a049;
+        }
+    </style>	
+
 </head>
 
 <body>
+	<!--
 	<h1>Review Contract</h1>
 	<form action="index.php" method="post">
-		<input type="text" name="contract_id" readonly><br> <!-- can be filled with get request, probably won't be visible in final, hopefully show details of contract instead -->
+		<input type="text" name="contract_id" readonly><br> 
 		<label for="rating">Rating (1 to 5):</label>
 		<input type="number" name="rating" size="1" min="1" max="5" required><br>
 		<input type="submit" name="review_contract" value="Submit Review">
 	</form>
-</body>
+	-->
+	<div class="form-container">
+        <h1 class="form-title">Rate the Contract</h1>
+        <form action="submit_rating.php" method="post">
+            <div class="form-group">
+                <label for="contract_id" class="form-label">Contract ID:</label>
+                <input type="text" name="contract_id" class="form-input" placeholder="Enter contract ID" required>
+            </div>
 
+            <div class="form-group">
+                <label for="rating" class="form-label">Star Rating (1 to 5):</label>
+                <div class="star-rating">
+                    <input type="radio" id="star5" name="rating" value="5">
+                    <label for="star5">&#9733;</label>
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4">&#9733;</label>
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3">&#9733;</label>
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2">&#9733;</label>
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1">&#9733;</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="form-button" value="Submit Rating">
+            </div>
+        </form>
+    </div>
+</body>
 </html>

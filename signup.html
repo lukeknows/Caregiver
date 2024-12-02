@@ -5,43 +5,63 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Sign Up</title>
-	<style>
-		label {
-			width: 11%;
-			display: inline-block;
-		}
-	</style>
+	<link href="styles.css" rel="stylesheet">	
+
 </head>
 
 <body>
-	<h1>Register</h1>
-	<h2>Your Information</h2>
-	<form action="index.php" method="post">
-		<label for="username">Username:</label>
-		<input type="text" name="username" required><br>
-		<label for="password">Password:</label>
-		<input type="password" name="password" required><br>
-		<label for="address">Street Address:</label>
-		<input type="text" name="address" size="30" required><br>
-		<label for="city">City:</label>
-		<input type="text" name="city" size="15" required>
-		State: <!-- no label because of formatting -->
-		<input type="text" name="state" size="1" minlength="2" maxlength="2" required>
-		ZIP:
-		<input type="text" name="zip" size="5" minlength="5" maxlength="5" pattern="[0-9]{5}" required><br>
-		<label for="phone">Phone:</label>
-		<input type="tel" name="phone" required><br>
-		<label for="available_hours">Available Hours per Week:</label>
-		<input type="number" min="0" max="168" name="available_hours" required><br>
+	<div class="container">
+		<div class = "signup-box">
+        <h1 class="form-title">Register</h1>
+        <form action="index.php" method="post">
+            <h2 class="form-section-title">Your Information</h2>
+            <div class="form-group">
+                <label for="username" class="form-label">Username:</label>
+                <input type="text" name="username" class="form-input" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" name="password" class="form-input" placeholder="Enter a secure password" required>
+            </div>
+            <div class="form-group">
+                <label for="address" class="form-label">Street Address:</label>
+                <input type="text" name="address" class="form-input" placeholder="123 Main St" required>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="city" class="form-label">City:</label>
+                    <input type="text" name="city" class="form-input" placeholder="City" required>
+                </div>
+                <div class="form-group">
+                    <label for="state" class="form-label">State:</label>
+                    <input type="text" name="state" class="form-input" minlength="2" maxlength="2" placeholder="ST" required>
+                </div>
+                <div class="form-group">
+                    <label for="zip" class="form-label">ZIP:</label>
+                    <input type="text" name="zip" class="form-input" minlength="5" maxlength="5" pattern="[0-9]{5}" placeholder="12345" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="phone" class="form-label">Phone:</label>
+                <input type="tel" name="phone" class="form-input" placeholder="123-456-7890" required>
+            </div>
+            <div class="form-group">
+                <label for="available_hours" class="form-label">Available Hours per Week:</label>
+                <input type="number" name="available_hours" class="form-input" min="0" max="168" placeholder="Hours" required>
+            </div>
 
-		<!-- not sure exactly what "parent's info" means from the instructions, haven't set required yet -->
-		<h2>Parents&#39; Information</h2>
-		<label for="parent_phone">Phone:</label>
-		<input type="tel" name="parent_phone"><br>
+            <h2 class="form-section-title">Parents' Information</h2>
+            <div class="form-group">
+                <label for="parent_phone" class="form-label">Phone:</label>
+                <input type="tel" name="parent_phone" class="form-input" placeholder="123-456-7890">
+            </div>
 
-		<input type="submit" name="register" value="Register">
-	</form>
-
+            <div class="form-group">
+                <input type="submit" name="register" value="Register" class="form-button">
+            </div>
+        </form>
+	</div>
+    </div>
 	<script>
 		"use strict";
 		/*

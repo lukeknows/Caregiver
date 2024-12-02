@@ -11,15 +11,28 @@
 			display: inline-block;
 		}
 	</style>
+	<link href="styles.css" rel="stylesheet">
+
 </head>
 
 <body>
-	<h1>Accept or Decline Contract</h1>
+	<!-- <h1>Accept or Decline Contract</h1>
 	<form action="index.php" method="post">
-		<input type="text" name="contract_id" readonly><br> <!-- can be filled with get request, probably won't be visible in final, hopefully show details of contract instead -->
+		<input type="text" name="contract_id" readonly><br> 
 		<input type="submit" name="accept_contract" value="Accept and Pay">
 		<input type="submit" name="reject_contract" value="Decline">
-	</form>
+	</form> -->
+
+	<div class="container">
+		<div class="accept-box">
+			<h1>Accept or Decline Contract</h1>
+			<form action="index.php" method="post">
+				<input type="text" name="contract_id" readonly><br>
+				<input type="submit" name="accept_contract" value="Accept and Pay">
+				<input type="submit" name="reject_contract" value="Decline">
+			</form>
+		</div>
+	</div>
 </body>
 
 </html>
