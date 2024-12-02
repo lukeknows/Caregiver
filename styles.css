@@ -1,7 +1,9 @@
 /* Base Colors */
 :root {
     --color-primary: #3498db;
+    --color-primary-dark: #226592;
     --color-secondary: #2ecc71;
+    --color-secondary-dark: #186c3b;
     --color-background: #f4f6f7;
     --color-surface: #ffffff;
     --color-text: #333333;
