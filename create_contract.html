@@ -11,10 +11,12 @@
 			display: inline-block;
 		}
 	</style>
+	<link href="styles.css" rel="stylesheet">
+
 </head>
 
 <body>
-	<h1>Create Contract</h1>
+	<!-- <h1>Create Contract</h1>
 	<form action="index.php" method="post">
 		<label for="receiver_name">Care Receiver's Username:</label>
 		<input type="text" name="receiver_name" required><br>
@@ -25,7 +27,24 @@
 		<label for="daily_hours">Daily Work Hours:</label>
 		<input type="number" name="daily_hours" min="0" max="24" required><br>
 		<input type="submit" name="create_contract" value="Create Contract">
-	</form>
+	</form> -->
+	<div class="container">
+		<div class="create-contract-box">
+			<h1>Create Contract</h1>
+			<form action="create_contract.php" method="post">
+				<label for="username">Care Receiver's Username</label>
+				<input type="text" id="username" name="username" placeholder="Enter care reciever's username" required>
+
+				<label for="start_date">Start Date:</label>
+				<input type="date" name="start_date" required><br>
+				<label for="end_date">End Date:</label>
+				<input type="date" name="end_date" required><br>
+				<label for="daily_hours">Daily Work Hours:</label>
+				<input type="number" name="daily_hours" min="0" max="24" required><br>
+				<input type="submit" name="create_contract" value="Create Contract">
+			</form>
+		</div>
+	</div>
 </body>
 
 </html>
