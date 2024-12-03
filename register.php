@@ -30,7 +30,7 @@
 			$_SESSION['user_id'] = $user_id; // Record user's session
 
 			// insert user into database
-			$stmt = $conn->prepare("INSERT into Users (id,username,password,address,phone,availableHours,careDollars,parentInfo) VALUES(?,?,?,?,?,?,?,?)");
+			$stmt = $conn->prepare("INSERT into Users (id,username,password,address,phone,available_hours,care_dollars,parent_info) VALUES(?,?,?,?,?,?,?,?)");
 			$stmt->bind_param("sssssiis", $user_id, $username, $password, $address, $phone, $available_hours, $care_dollars, $parent_info);
 			$stmt->execute();
 			$stmt->close();
