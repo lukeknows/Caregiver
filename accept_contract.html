@@ -24,13 +24,20 @@
 	</form> -->
 
 	<div class="container">
+		
 		<div class="accept-box">
 			<h1>Accept or Decline Contract</h1>
+			<h2>Caregiver: <?php echo htmlspecialchars($ad['caregiver_name']); ?></h2>
+        	<p><strong>Location:</strong> <?php echo htmlspecialchars($ad['location']); ?></p>
+     		<p><strong>Details:</strong> <?php echo htmlspecialchars($ad['details']); ?></p>
+        	<p><strong>Available Hours:</strong> <?php echo htmlspecialchars($ad['available_hours']); ?></p>
+
 			<form action="accept_contract.php" method="post">
-				<input type="text" name="contract_id" readonly><br>
 				<input type="submit" name="accept_contract" value="Accept and Pay">
 				<input type="submit" name="reject_contract" value="Decline">
 			</form>
+			<a href="login.php" class="back-button">Back to Login</a>
+
 		</div>
 	</div>
 </body>
