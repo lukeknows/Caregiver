@@ -35,14 +35,14 @@ if ($conn->connect_error) {
 			}
 
 			if ($available_hours != "") {
-				$stmt = $conn->prepare("UPDATE Users SET availableHours = ? WHERE id = ?");
+				$stmt = $conn->prepare("UPDATE Users SET available_hours = ? WHERE id = ?");
 				$stmt->bind_param("is", $available_hours, $user_id);
 				$stmt->execute();
 				$stmt->close();
 			}
 
 			if ($parent_info != "") {
-				$stmt = $conn->prepare("UPDATE Users SET parentInfo = ? WHERE id = ?");
+				$stmt = $conn->prepare("UPDATE Users SET parent_info = ? WHERE id = ?");
 				$stmt->bind_param("ss", $parent_info, $user_id);
 				$stmt->execute();
 				$stmt->close();
