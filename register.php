@@ -10,7 +10,7 @@
 	$care_dollars = 2000;
 
 	// connect to DB
-	$conn = new mysqli("localhost", "shaoyan", "", "caregiver_community");
+	$conn = new mysqli("localhost", "shaoyan", "", "register");
 	if ($conn->connect_error) 
 	{
 		returnWithError( $conn->connect_error );

@@ -1,0 +1,45 @@
+this documentation will give full instraction about this project.
+
+First, database and php.
+1.mysql SERVER
+sudo apt update
+sudo apt install mysql-server
+2. MYSQL
+sudo systemctl start mysql
+3. check MYSQL
+sudo systemctl status mysql
+4. sudo mysql_secure_installation
+5. sudo mysql -u root -p
+this show be your username
+6. CREATE DATABASE caregiver_community
+7. create a php file, copy the folowing code(or you can finda file called test_shaoyan.php in github)
+<?php
+$servername = "localhost";  
+$username = "shaoyan";      
+$password = "1231"; 
+$dbname = "caregiver_community"; 
+
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+echo "Connected successfully";
+?>
+8. run this fil, if see output is Connected successfully means good.
+9. run the following in mysql(this part match with Luke's code, i did some change)
+CREATE DATABASE caregiver_community
+CREATE DATABASE average
+CREATE DATABASE creat_ad
+CREATE DATABASE creat_contract
+CREATE DATABASE find_jobs
+CREATE DATABASE index
+CREATE DATABASE initialize_database
+CREATE DATABASE login
+CREATE DATABASE recent_scores
+CREATE DATABASE register
+CREATE DATABASE review_contract
+CREATE DATABASE template
+CREATE DATABASE update_info

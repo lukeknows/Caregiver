@@ -8,7 +8,7 @@ $end_date = $inData['end_date'];
 $daily_hours = $inData['daily_hours'];
 
 // connect to DB
-$conn = new mysqli("localhost", "shaoyan", "", "caregiver_community");
+$conn = new mysqli("localhost", "shaoyan", "", "creat_contract");
 if ($conn->connect_error) {
 	returnWithError($conn->connect_error);
 } else {

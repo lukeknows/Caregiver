@@ -4,7 +4,7 @@ session_start();
 $servername = "34.171.71.248"; 
 $username = "shaoyan"; 
 $password = "1231"; 
-$dbname = "caregiver_community"; 
+$dbname = "index"; 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 

@@ -6,7 +6,7 @@ $username = $inData['username'];
 $password = password_hash($inData['password'], PASSWORD_DEFAULT);
 
 // connect to DB
-$conn = new mysqli("localhost", "shaoyan", "", "caregiver_community");
+$conn = new mysqli("localhost", "shaoyan", "", "login");
 if ($conn->connect_error) {
 	returnWithError($conn->connect_error);
 } else {

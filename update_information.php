@@ -7,7 +7,7 @@ $available_hours = $inData['available_hours'];
 $parent_info = $inData['parent_info'];
 
 // connect to DB
-$conn = new mysqli("localhost", "shaoyan", "", "caregiver_community");
+$conn = new mysqli("localhost", "shaoyan", "", "update_info");
 if ($conn->connect_error) {
 	returnWithError($conn->connect_error);
 } else {

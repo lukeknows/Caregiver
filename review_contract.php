@@ -6,7 +6,7 @@ $contract_id = $inData['contract_id'];
 $rating = $inData['rating'];
 
 // connect to DB
-$conn = new mysqli("localhost", "shaoyan", "", "caregiver_community");
+$conn = new mysqli("localhost", "shaoyan", "", "review_contract");
 if ($conn->connect_error) {
 	returnWithError($conn->connect_error);
 } else {

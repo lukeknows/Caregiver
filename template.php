@@ -3,7 +3,7 @@
 $inData = getRequestInfo();
 
 // connect to DB
-$conn = new mysqli("localhost", "shaoyan", "", "caregiver_community");
+$conn = new mysqli("localhost", "shaoyan", "", "template");
 if ($conn->connect_error) {
 	returnWithError($conn->connect_error);
 } else {

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caregiver Ads</title>
+	<link href="styles.css" rel="stylesheet">	
+
+    <script>
+        // Fetch ads data from the server
+        async function loadAds() {
+            const response = await fetch('get_ads.php');
+            const ads = await response.json();
+
+            const container = document.querySelector('.ad-container');
+            ads.forEach(ad => {
+                const adDiv = document.createElement('div');
+                adDiv.className = 'ad';
+                adDiv.onclick = () => redirectToContract(ad.id); // Redirect on click
+
+                adDiv.innerHTML = `
+                    <h2>Caregiver: ${ad.caregiver_name}</h2>
+                    <p><strong>Location:</strong> ${ad.location}</p>
+                    <p><strong>Details:</strong> ${ad.details}</p>
+                    <p><strong>Available Hours:</strong> ${ad.available_hours}</p>
+                `;
+
+                container.appendChild(adDiv);
+            });
+        }
+
+        // Redirect to the accept contract page
+        function redirectToContract(adId) {
+            window.location.href = `accept_contract.php?ad_id=${adId}`;
+        }
+
+        // Load ads on page load
+        window.onload = loadAds;
+    </script>
+</head>
+<body>
+
+    <br>
+    <div class="ad-container">
+        <h1>Available Caregiver Ads</h1>
+        <a href="login.php" class="back-button">Back to Login</a>
+
+    </div>
+    
+</body>
+</html>
